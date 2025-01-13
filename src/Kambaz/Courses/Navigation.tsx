@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Assignments from "./Assignments";
 
 export default function CourseNavigation() {
   return (
