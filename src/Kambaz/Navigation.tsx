@@ -14,7 +14,7 @@ export default function KambazNavigation() {
         Dashboard
       </Link>
       <br />
-      <Link to="/Kambaz/Dashboard" id="wd-course-link">
+      <Link to="/Kambaz/Courses/123" id="wd-course-link">
         Courses
       </Link>
       <br />
