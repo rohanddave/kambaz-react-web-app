@@ -24,7 +24,31 @@ export default function Assignments() {
           </p>
         </li>
         <li className="wd-assignment-list-item">
-          {/* TODO: Complete On Your Own */}
+          <p>
+            <Link
+              to="/Kambaz/Courses/1234/Assignments/123"
+              className="wd-assignment-link"
+            >
+              A2 - CSS + BOOTSTRAP
+            </Link>
+            <br />
+            Multiple Modules | <b>Not available until</b> 13 May at 12:00am |
+            <b>Due</b> May 20 at 11:59pm | 100 pts
+          </p>
+        </li>
+
+        <li className="wd-assignment-list-item">
+          <p>
+            <Link
+              to="/Kambaz/Courses/1234/Assignments/123"
+              className="wd-assignment-link"
+            >
+              A3 - JAVASCRIPT + REACT
+            </Link>
+            <br />
+            Multiple Modules | <b>Not available until</b> 20 May at 12:00am |
+            <b>Due</b> May 27 at 11:59pm | 100 pts
+          </p>
         </li>
       </ul>
     </div>
