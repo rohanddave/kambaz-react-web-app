@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function Assignments() {
   return (
     <div id="wd-assignments">
@@ -10,12 +12,12 @@ export default function Assignments() {
       <ul id="wd-assignment-list">
         <li className="wd-assignment-list-item">
           <p>
-            <a
-              href="#/Kambaz/Courses/1234/Assignments/123"
+            <Link
+              to="/Kambaz/Courses/1234/Assignments/123"
               className="wd-assignment-link"
             >
               A1 - ENV + HTML
-            </a>
+            </Link>
             <br />
             Multiple Modules | <b>Not available until</b> 6 May at 12:00am |{" "}
             <b>Due</b> May 20 at 11:59pm | 100 pts
