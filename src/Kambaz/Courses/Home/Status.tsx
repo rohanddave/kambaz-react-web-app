@@ -6,12 +6,12 @@ export default function CourseStatus() {
         <tr>
           <td colSpan={2}>
             <button>Unpublish</button>
-            <button>Import Existing Content</button>
+            <button>Publish</button>
           </td>
         </tr>
         <tr>
           <td colSpan={2}>
-            <button>Publish</button>
+            <button>Import Existing Content</button>
           </td>
         </tr>
         <tr>
