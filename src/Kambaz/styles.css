@@ -12,13 +12,8 @@ body * {
   }
 }
 
-.list-group.wd > .list-group-item {
-  color: white;
-  background-color: black;
-  border-left: 3px solid black !important;
-}
-
 .list-group.wd > .list-group-item.active {
-  color: red;
+  color: black;
   background-color: white;
+  border-left: 3px solid black !important;
 }
