@@ -2,7 +2,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function KambazNavigation() {
   return (
@@ -30,62 +30,77 @@ export default function KambazNavigation() {
         Account
       </Link>
       <br />
-      <Link
+      <NavLink
         to="/Kambaz/Dashboard"
         id="wd-dashboard-link"
-        className="list-group-item text-center border-0
-                  bg-white text-danger"
+        className={({ isActive }) =>
+          `list-group-item text-center border-0 ${
+            isActive ? "active" : "bg-black text-white"
+          }`
+        }
       >
         <AiOutlineDashboard className="fs-1 text-danger" />
         <br />
         Dashboard
-      </Link>
+      </NavLink>
       <br />
-      <Link
+      <NavLink
         to="/Kambaz/Courses/123"
         id="wd-course-link"
-        className="list-group-item text-white
-                  bg-black text-center border-0"
+        className={({ isActive }) =>
+          `list-group-item text-center border-0 ${
+            isActive ? "active" : "bg-black text-white"
+          }`
+        }
       >
         <LiaBookSolid className="fs-1 text-danger" />
         <br />
         Courses
-      </Link>
+      </NavLink>
       <br />
-      <Link
+      <NavLink
         to="/Kambaz/Calendar"
         id="wd-course-link"
-        className="list-group-item text-white
-                  bg-black text-center border-0"
+        className={({ isActive }) =>
+          `list-group-item text-center border-0 ${
+            isActive ? "active" : "bg-black text-white"
+          }`
+        }
       >
         <IoCalendarOutline className="fs-1 text-danger" />
         <br />
         Calendar
-      </Link>
+      </NavLink>
       <br />
 
-      <Link
+      <NavLink
         to="/Kambaz/Inbox"
         id="wd-course-link"
-        className="list-group-item text-white
-                  bg-black text-center border-0"
+        className={({ isActive }) =>
+          `list-group-item text-center border-0 ${
+            isActive ? "active" : "bg-black text-white"
+          }`
+        }
       >
         <FaInbox className="fs-1 text-danger" />
         <br />
         Inbox
-      </Link>
+      </NavLink>
       <br />
 
-      <Link
+      <NavLink
         to="/Labs"
         id="wd-course-link"
-        className="list-group-item text-white
-                  bg-black text-center border-0"
+        className={({ isActive }) =>
+          `list-group-item text-center border-0 ${
+            isActive ? "active" : "bg-black text-white"
+          }`
+        }
       >
         <LiaCogSolid className="fs-1 text-danger" />
         <br />
         Labs
-      </Link>
+      </NavLink>
     </div>
   );
 }
