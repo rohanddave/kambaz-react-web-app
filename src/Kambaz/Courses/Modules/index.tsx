@@ -19,14 +19,13 @@ export default function Modules() {
           </div>
           <ListGroup className="wd-lessons rounded-0">
             <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" /> LEARNING OBJECTIVES{" "}
+              <BsGripVertical className="me-2 fs-3" /> LEARNING OBJECTIVES
               <LessonControlButtons />
             </ListGroup.Item>
             <ListGroup.Item className="wd-lesson p-3 ps-1">
               <BsGripVertical className="me-2 fs-3" /> Introduction to the
               course <LessonControlButtons />
             </ListGroup.Item>
-            ...
           </ListGroup>
         </ListGroup.Item>
       </ListGroup>
