@@ -26,7 +26,7 @@ export default function AssignmentEditor() {
         <br />
         <Form.Group controlId="wd-points">
           <Row>
-            <Col md={6}>
+            <Col md={6} className="d-flex justify-content-end">
               <Form.Label>Points</Form.Label>
             </Col>
             <Col md={6}>
@@ -34,9 +34,12 @@ export default function AssignmentEditor() {
             </Col>
           </Row>
         </Form.Group>
+
+        <br />
+
         <Form.Group controlId="wd-group">
           <Row>
-            <Col md={6}>
+            <Col md={6} className="d-flex justify-content-end">
               <Form.Label>Assignment Group</Form.Label>
             </Col>
             <Col md={6}>
@@ -54,9 +57,12 @@ export default function AssignmentEditor() {
             </Col>
           </Row>
         </Form.Group>
+
+        <br />
+
         <Form.Group controlId="wd-display-grade-as">
           <Row>
-            <Col md={6}>
+            <Col md={6} className="d-flex justify-content-end">
               <Form.Label>Display Grade As</Form.Label>
             </Col>
             <Col md={6}>
@@ -72,9 +78,11 @@ export default function AssignmentEditor() {
           </Row>
         </Form.Group>
 
+        <br />
+
         <Form.Group controlId="wd-submission-type">
           <Row>
-            <Col md={6}>
+            <Col md={6} className="d-flex justify-content-end">
               <Form.Label>Submission Type</Form.Label>
             </Col>
             <Col md={6}>
@@ -120,9 +128,11 @@ export default function AssignmentEditor() {
           </Row>
         </Form.Group>
 
+        <br />
+
         <Form.Group controlId="wd-assign-to">
           <Row>
-            <Col md={6}>
+            <Col md={6} className="d-flex justify-content-end">
               <Form.Label>Assign</Form.Label>
             </Col>
             <Col md={6}>
@@ -132,10 +142,16 @@ export default function AssignmentEditor() {
                 type="text"
                 defaultValue="Everyone"
               />
+
+              <br />
+
               <Form.Group controlId="wd-due-date">
                 <Form.Label>Due</Form.Label>
                 <Form.Control type="date" defaultValue="2025-01-02" />
               </Form.Group>
+
+              <br />
+
               <Row>
                 <Col md={6}>
                   <Form.Group controlId="wd-available-from">
@@ -161,6 +177,8 @@ export default function AssignmentEditor() {
             </Col>
           </Row>
         </Form.Group>
+        <br />
+
         <hr />
         <Container className="d-flex justify-content-end">
           <button className="btn btn-secondary text-dark me-2">Cancel</button>
