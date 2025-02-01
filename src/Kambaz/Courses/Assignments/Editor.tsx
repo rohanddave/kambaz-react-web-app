@@ -180,9 +180,10 @@ export default function AssignmentEditor() {
         <br />
 
         <hr />
+        
         <Container className="d-flex justify-content-end">
           <button className="btn btn-secondary text-dark me-2">Cancel</button>
-          <button className="btn btn-danger text-white ">Save</button>
+          <button className="btn btn-danger text-white">Save</button>
         </Container>
       </Form>
     </Container>

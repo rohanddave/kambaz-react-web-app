@@ -1,7 +1,7 @@
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router";
 import ModuleControlButtons from "../Modules/ModuleControlButtons";
-import { BsGripVertical } from "react-icons/bs";
+import { BsGripVertical, BsSearch } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 
 type Assignment = {
@@ -11,6 +11,7 @@ type Assignment = {
   due: string;
   points: number;
 };
+
 function AssignmentCard({ assignment }: { assignment: Assignment }) {
   return (
     <Link
@@ -41,6 +42,7 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
     </Link>
   );
 }
+
 export default function Assignments() {
   const assignments: Assignment[] = [
     {
@@ -51,21 +53,32 @@ export default function Assignments() {
       points: 100,
     },
   ];
+
   return (
     <div id="wd-assignments">
-      <div className="wd-search-container d-flex gap-3 align-items-center mb-3">
-        <input
-          placeholder="Search for Assignments"
-          id="wd-search-assignment"
-          className="form-control"
-        />
+      <div className="wd-search-container d-flex align-items-center mb-3">
+        <div className="position-relative">
+          <BsSearch className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" />
+          <input
+            type="text"
+            className="form-control ps-5"
+            placeholder="Search..."
+          />
+        </div>
 
         <div className="ms-auto d-flex">
-          <button id="wd-add-assignment-group" className="btn btn-success">
-            + Group
+          <button
+            id="wd-add-assignment-group"
+            className="btn btn-light border me-2 d-inline-flex align-items-center px-3 py-2"
+          >
+            <span className="me-1">+</span> Group
           </button>
-          <button id="wd-add-assignment" className="btn btn-primary">
-            + Assignment
+
+          <button
+            id="wd-add-assignment"
+            className="btn btn-danger text-white d-inline-flex align-items-center px-3 py-2"
+          >
+            <span className="me-1">+</span> Assignment
           </button>
         </div>
       </div>
