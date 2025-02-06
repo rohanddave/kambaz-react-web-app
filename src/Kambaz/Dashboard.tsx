@@ -20,7 +20,7 @@ export default function Dashboard() {
                 >
                   <Card.Img
                     variant="top"
-                    src="/images/reactjs.jpg"
+                    src="/images/react.png"
                     width="100%"
                     height={160}
                   />
