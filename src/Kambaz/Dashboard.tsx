@@ -1,13 +1,20 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import * as db from "./Database";
+
 export default function Dashboard() {
+  const courses = db.courses;
+
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-      <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
+      <h2 id="wd-dashboard-published">
+        Published Courses ({courses.length})
+      </h2>{" "}
+      <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-5">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
+          {courses.map((course, index) => (
             <Col
               className="wd-dashboard-course"
               style={{ width: "270px" }}
@@ -15,7 +22,7 @@ export default function Dashboard() {
             >
               <Card>
                 <Link
-                  to="/Kambaz/Courses/1234/Home"
+                  to={`/Kambaz/Courses/${course._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark"
                 >
                   <Card.Img
@@ -25,11 +32,14 @@ export default function Dashboard() {
                     height={160}
                   />
                   <Card.Body>
-                    <Card.Title className="wd-dashboard-course-title">
-                      CS1234 React JS
+                    <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                      {course.name}
                     </Card.Title>
-                    <Card.Text className="wd-dashboard-course-description">
-                      Full Stack software developer
+                    <Card.Text
+                      className="wd-dashboard-course-description overflow-hidden"
+                      style={{ height: "100px" }}
+                    >
+                      {course.description}
                     </Card.Text>
                     <Button variant="primary">Go</Button>
                   </Card.Body>
