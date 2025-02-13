@@ -1,6 +1,12 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
+import { useParams } from "react-router";
+import { assignments } from "../../Database";
 
 export default function AssignmentEditor() {
+  const { aid } = useParams();
+  const assignment = assignments.find(
+    (assignment: any) => assignment._id == aid
+  );
   return (
     <Container id="wd-assignments-editor">
       <Form>
@@ -9,7 +15,7 @@ export default function AssignmentEditor() {
           <Form.Control
             id="wd-name"
             type="text"
-            defaultValue="A1 - ENV + HTML"
+            defaultValue={assignment?.title}
           />
         </Form.Group>
         <br />
@@ -93,7 +99,7 @@ export default function AssignmentEditor() {
                 defaultValue="online"
               >
                 <option value="online">Online</option>
-                <option value="offline">Offline</option>{" "}
+                <option value="offline">Offline</option>
               </Form.Control>
 
               <div className="mt-3">
@@ -180,7 +186,7 @@ export default function AssignmentEditor() {
         <br />
 
         <hr />
-        
+
         <Container className="d-flex justify-content-end">
           <button className="btn btn-secondary text-dark me-2">Cancel</button>
           <button className="btn btn-danger text-white">Save</button>

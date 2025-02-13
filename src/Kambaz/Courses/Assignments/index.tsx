@@ -1,26 +1,26 @@
 import { ListGroup } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import ModuleControlButtons from "../Modules/ModuleControlButtons";
 import { BsGripVertical, BsSearch } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
+import { assignments } from "../../Database";
 
 type Assignment = {
-  id: number;
+  _id: string;
   title: string;
-  available: string;
-  due: string;
-  points: number;
+  course: string;
 };
 
 function AssignmentCard({ assignment }: { assignment: Assignment }) {
+  const { cid } = useParams();
   return (
     <Link
-      to="/Kambaz/Courses/1234/Assignments/123"
+      to={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
       className="wd-assignment-link"
       style={{ textDecoration: "none" }}
     >
       <ListGroup
-        key={assignment.id}
+        key={assignment._id}
         className="wd-assignment-list-item rounded-0"
       >
         <ListGroup.Item className="wd-lesson p-3 ps-1">
@@ -29,8 +29,9 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
             <div className="assignment-details">
               <div className="assignment-title">{assignment.title}</div>
               <div className="assignment-meta">
-                <span>{assignment.available}</span> | <b>Due</b>{" "}
-                {assignment.due} | <span>{assignment.points} pts</span>
+                {/* TODO */}
+                {/* <span>{assignment.available}</span> | <b>Due</b>{" "}
+                {assignment.due} | <span>{assignment.points} pts</span> */}
               </div>
             </div>
             <div className="ms-auto">
@@ -44,15 +45,11 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
 }
 
 export default function Assignments() {
-  const assignments: Assignment[] = [
-    {
-      id: 1,
-      title: "A1 - ENV + HTML",
-      available: "6 May at 12:00am",
-      due: "May 20 at 11:59pm",
-      points: 100,
-    },
-  ];
+  const { cid } = useParams();
+
+  const courseAssignments: Assignment[] = assignments.filter(
+    (assignment: any) => assignment.course == cid
+  );
 
   return (
     <div id="wd-assignments">
@@ -88,8 +85,8 @@ export default function Assignments() {
             <BsGripVertical className="me-2 fs-3" /> Assignments
             <ModuleControlButtons />
           </div>
-          {assignments.map((assignment, index) => (
-            <AssignmentCard key={index} assignment={assignment} />
+          {courseAssignments.map((assignment: any) => (
+            <AssignmentCard key={assignment._id} assignment={assignment} />
           ))}
         </ListGroup.Item>
       </ListGroup>
