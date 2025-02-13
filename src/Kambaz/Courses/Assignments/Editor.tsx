@@ -1,156 +1,191 @@
+import { Col, Container, Form, Row } from "react-bootstrap";
+
 export default function AssignmentEditor() {
   return (
-    <div id="wd-assignments-editor">
-      <label htmlFor="wd-name">Assignment Name</label>
-      <input id="wd-name" value="A1 - ENV + HTML" />
-      <br />
-      <br />
-      <textarea id="wd-description">
-        The assignment is available online Submit a link to the landing page of
-      </textarea>
-      <br />
-      <table>
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-points">Points</label>
-          </td>
-          <td>
-            <input id="wd-points" value={100} />
-          </td>
-        </tr>
+    <Container id="wd-assignments-editor">
+      <Form>
+        <Form.Group controlId="wd-name">
+          <Form.Label>Assignment Name</Form.Label>
+          <Form.Control
+            id="wd-name"
+            type="text"
+            defaultValue="A1 - ENV + HTML"
+          />
+        </Form.Group>
+        <br />
+        <br />
+        <Form.Group controlId="wd-description">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            id="wd-description"
+            as="textarea"
+            defaultValue="The assignment is available online Submit a link to the landing page of"
+            rows={4}
+          />
+        </Form.Group>
+        <br />
+        <Form.Group controlId="wd-points">
+          <Row>
+            <Col md={6} className="d-flex justify-content-end">
+              <Form.Label>Points</Form.Label>
+            </Col>
+            <Col md={6}>
+              <Form.Control id="wd-points" type="number" defaultValue={100} />
+            </Col>
+          </Row>
+        </Form.Group>
 
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-group">Assignment Group</label>
-          </td>
-          <td>
-            <select name="group" id="wd-group">
-              <option value="assignment">ASSIGNMENTS</option>
-              <option value="quiz">QUIZZES</option>
-              <option value="exams">EXAMS</option>
-              <option value="project">PROJECT</option>
-            </select>
-          </td>
-        </tr>
+        <br />
 
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-display-grade-as">Display Grade As</label>
-          </td>
-          <td>
-            <select name="group" id="wd-display-grade-as">
-              <option value="percentage">Percentage</option>
-            </select>
-          </td>
-        </tr>
+        <Form.Group controlId="wd-group">
+          <Row>
+            <Col md={6} className="d-flex justify-content-end">
+              <Form.Label>Assignment Group</Form.Label>
+            </Col>
+            <Col md={6}>
+              <Form.Control
+                name="group"
+                id="wd-group"
+                as="select"
+                defaultValue="assignment"
+              >
+                <option value="assignment">ASSIGNMENTS</option>
+                <option value="quiz">QUIZZES</option>
+                <option value="exams">EXAMS</option>
+                <option value="project">PROJECT</option>
+              </Form.Control>
+            </Col>
+          </Row>
+        </Form.Group>
 
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-submission-type">Submission Type</label>
-          </td>
-          <td>
-            <select name="group" id="wd-submission-type">
-              <option value="online">Online</option>
-              <option value="online">Offline</option>
-            </select>
+        <br />
 
-            <tr>
-              <tr>Online Entry Options</tr>
-              <tr>
-                <input
+        <Form.Group controlId="wd-display-grade-as">
+          <Row>
+            <Col md={6} className="d-flex justify-content-end">
+              <Form.Label>Display Grade As</Form.Label>
+            </Col>
+            <Col md={6}>
+              <Form.Control
+                name="grade"
+                id="wd-display-grade-as"
+                as="select"
+                defaultValue="percentage"
+              >
+                <option value="percentage">Percentage</option>
+              </Form.Control>
+            </Col>
+          </Row>
+        </Form.Group>
+
+        <br />
+
+        <Form.Group controlId="wd-submission-type">
+          <Row>
+            <Col md={6} className="d-flex justify-content-end">
+              <Form.Label>Submission Type</Form.Label>
+            </Col>
+            <Col md={6}>
+              <Form.Control
+                name="grade"
+                id="wd-submission-type"
+                as="select"
+                defaultValue="online"
+              >
+                <option value="online">Online</option>
+                <option value="offline">Offline</option>{" "}
+              </Form.Control>
+
+              <div className="mt-3">
+                <h5>Online Entry Options</h5>
+                <Form.Check
                   type="checkbox"
+                  label="Text Entry"
                   id="wd-text-entry"
-                  name="textEntry"
-                  value="textEntry"
                 />
-                <label htmlFor="wd-text-entry">Text Entry</label>
-              </tr>
-              <tr>
-                <input
+                <Form.Check
                   type="checkbox"
+                  label="Website URL"
                   id="wd-website-url"
-                  name="websiteURL"
-                  value="websiteURL"
                 />
-                <label htmlFor="websiteURL">Website URL</label>
-              </tr>
-              <tr>
-                <input
+                <Form.Check
                   type="checkbox"
+                  label="Media Recordings"
                   id="wd-media-recordings"
-                  name="mediaRecordings"
-                  value="mediaRecordings"
                 />
-                <label htmlFor="wd-media-recordings">Media Recordings</label>
-              </tr>
-              <tr>
-                <input
+                <Form.Check
                   type="checkbox"
+                  label="Student Annotation"
                   id="wd-student-annotation"
-                  name="studentAnnotation"
-                  value="studentAnnotation"
                 />
-                <label htmlFor="wd-student-annotation">
-                  Student Annotation
-                </label>
-              </tr>
-              <tr>
-                <input
+                <Form.Check
                   type="checkbox"
+                  label="File Uploads"
                   id="wd-file-upload"
-                  name="fileUpload"
-                  value="fileUpload"
                 />
-                <label htmlFor="wd-file-upload">File Uploads</label>
-              </tr>
-            </tr>
-          </td>
-        </tr>
+              </div>
+            </Col>
+          </Row>
+        </Form.Group>
 
-        <tr>
-          <td align="right" valign="top">
-            Assign
-          </td>
-          <td align="left" valign="top">
-            <label htmlFor="wd-assign-to">Assign To</label>
-            <br />
-            <input id="wd-assign-to" value="Everyone" />
+        <br />
 
-            <br />
-            <br />
+        <Form.Group controlId="wd-assign-to">
+          <Row>
+            <Col md={6} className="d-flex justify-content-end">
+              <Form.Label>Assign</Form.Label>
+            </Col>
+            <Col md={6}>
+              <Form.Label>Assign To</Form.Label>
+              <Form.Control
+                id="wd-assign-to"
+                type="text"
+                defaultValue="Everyone"
+              />
 
-            <label htmlFor="wd-due-date">Due</label>
-            <br />
-            <input id="wd-assign-to" type="date" value="2025-01-02" />
+              <br />
 
-            <br />
-            <br />
+              <Form.Group controlId="wd-due-date">
+                <Form.Label>Due</Form.Label>
+                <Form.Control type="date" defaultValue="2025-01-02" />
+              </Form.Group>
 
-            <tr>
-              <td>
-                <label htmlFor="wd-available-from">Available from</label>
-                <br />
-                <input id="wd-available-from" type="date" value="2025-01-02" />
-              </td>
+              <br />
 
-              <td>
-                <label htmlFor="wd-available-until">Until</label>
-                <br />
-                <input id="wd-available-until" type="date" value="2025-01-02" />
-              </td>
-            </tr>
-          </td>
-        </tr>
-      </table>
-      <hr />
-      <table width="100%">
-        <tr>
-          <td align="right">
-            <button>Cancel</button>
-            <button>Save</button>
-          </td>
-        </tr>
-      </table>
-    </div>
+              <Row>
+                <Col md={6}>
+                  <Form.Group controlId="wd-available-from">
+                    <Form.Label>Available from</Form.Label>
+                    <Form.Control
+                      id="wd-available-from"
+                      type="date"
+                      defaultValue="2025-01-02"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="wd-available-until">
+                    <Form.Label>Until</Form.Label>
+                    <Form.Control
+                      id="wd-available-until"
+                      type="date"
+                      defaultValue="2025-01-02"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Form.Group>
+        <br />
+
+        <hr />
+        
+        <Container className="d-flex justify-content-end">
+          <button className="btn btn-secondary text-dark me-2">Cancel</button>
+          <button className="btn btn-danger text-white">Save</button>
+        </Container>
+      </Form>
+    </Container>
   );
 }
