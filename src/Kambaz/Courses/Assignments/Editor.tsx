@@ -1,9 +1,9 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { assignments } from "../../Database";
 
 export default function AssignmentEditor() {
-  const { aid } = useParams();
+  const { aid, cid } = useParams();
   const assignment = assignments.find(
     (assignment: any) => assignment._id == aid
   );
@@ -25,7 +25,7 @@ export default function AssignmentEditor() {
           <Form.Control
             id="wd-description"
             as="textarea"
-            defaultValue="The assignment is available online Submit a link to the landing page of"
+            defaultValue={assignment?.description}
             rows={4}
           />
         </Form.Group>
@@ -36,7 +36,11 @@ export default function AssignmentEditor() {
               <Form.Label>Points</Form.Label>
             </Col>
             <Col md={6}>
-              <Form.Control id="wd-points" type="number" defaultValue={100} />
+              <Form.Control
+                id="wd-points"
+                type="number"
+                defaultValue={assignment?.points}
+              />
             </Col>
           </Row>
         </Form.Group>
@@ -165,7 +169,7 @@ export default function AssignmentEditor() {
                     <Form.Control
                       id="wd-available-from"
                       type="date"
-                      defaultValue="2025-01-02"
+                      defaultValue={assignment?.available_date}
                     />
                   </Form.Group>
                 </Col>
@@ -188,8 +192,18 @@ export default function AssignmentEditor() {
         <hr />
 
         <Container className="d-flex justify-content-end">
-          <button className="btn btn-secondary text-dark me-2">Cancel</button>
-          <button className="btn btn-danger text-white">Save</button>
+          <Link
+            to={`/Kambaz/Courses/${cid}/Assignments`}
+            className="btn btn-secondary text-dark me-2"
+          >
+            Cancel
+          </Link>
+          <Link
+            to={`/Kambaz/Courses/${cid}/Assignments`}
+            className="btn btn-danger text-white"
+          >
+            Save
+          </Link>
         </Container>
       </Form>
     </Container>
