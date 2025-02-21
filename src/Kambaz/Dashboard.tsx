@@ -1,18 +1,20 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as db from "./Database";
+import { useState } from "react";
 
 export default function Dashboard() {
-  const courses = db.courses;
+  const [courses, setCourses] = useState<any[]>(db.courses);
 
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       <h2 id="wd-dashboard-published">
         Published Courses ({courses.length})
-      </h2>{" "}
+      </h2>
       <hr />
       <div id="wd-dashboard-courses">
+        
         <Row xs={1} md={5} className="g-5">
           {courses.map((course, index) => (
             <Col
