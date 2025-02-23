@@ -1,8 +1,9 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as db from "./Database";
 import { useEffect, useState } from "react";
+import { enroll, unenroll } from "./Courses/reducer";
 
 export default function Dashboard({
   courses,
@@ -20,26 +21,61 @@ export default function Dashboard({
   updateCourse: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = db;
-  const [userCourses, setUserCourses] = useState<any[]>([]);
+  const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
+  const [displayedCourses, setDisplayedCourses] = useState<any[]>([]);
+  const [mode, setMode] = useState<"all" | "enrolled">("all");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!currentUser || !courses.length || !enrollments.length) return;
 
-    setUserCourses(
-      courses.filter((course) =>
-        enrollments.some(
-          (enrollment) =>
-            enrollment.user === currentUser._id &&
-            enrollment.course === course._id
-        )
-      )
+    const updatedCourses = courses.map((course) => ({
+      ...course,
+      enrolled: enrollments.some(
+        (enrollment: any) =>
+          enrollment.user === currentUser._id &&
+          enrollment.course === course._id
+      ),
+    }));
+
+    if (mode === "enrolled") {
+      setDisplayedCourses(updatedCourses.filter((course) => course.enrolled));
+    } else {
+      setDisplayedCourses(updatedCourses);
+    }
+  }, [mode, currentUser, courses, enrollments]);
+
+  const handleEnroll = (courseId: any) => {
+    dispatch(
+      enroll({
+        courseId,
+        userId: currentUser._id,
+      })
     );
-  }, [currentUser]);
+  };
+
+  const handleUnenroll = (courseId: any) => {
+    dispatch(
+      unenroll({
+        courseId,
+        userId: currentUser._id,
+      })
+    );
+  };
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      {currentUser.role === "STUDENT" && (
+        <>
+          <button
+            onClick={() => setMode(mode === "enrolled" ? "all" : "enrolled")}
+          >
+            Enrollments
+          </button>
+        </>
+      )}
+      <hr />
       {currentUser.role === "FACULTY" && (
         <>
           <h5>
@@ -76,12 +112,12 @@ export default function Dashboard({
         </>
       )}
       <h2 id="wd-dashboard-published">
-        Published Courses ({userCourses.length})
+        Published Courses ({displayedCourses.length})
       </h2>
       <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-5">
-          {userCourses.map((course, index) => (
+          {displayedCourses.map((course, index) => (
             <Col
               className="wd-dashboard-course"
               style={{ width: "270px" }}
@@ -109,6 +145,29 @@ export default function Dashboard({
                       {course.description}
                     </Card.Text>
                     <Button variant="primary">Go</Button>
+                    {currentUser.role === "STUDENT" && (
+                      <>
+                        {course.enrolled ? (
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleUnenroll(course._id);
+                            }}
+                          >
+                            Unenroll
+                          </button>
+                        ) : (
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleEnroll(course._id);
+                            }}
+                          >
+                            Enroll
+                          </button>
+                        )}
+                      </>
+                    )}
                     {currentUser.role === "FACULTY" && (
                       <>
                         <button
