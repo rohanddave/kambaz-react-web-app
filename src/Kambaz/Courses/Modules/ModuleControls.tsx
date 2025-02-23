@@ -1,8 +1,17 @@
 import { FaPlus } from "react-icons/fa6";
 import { Button, Dropdown } from "react-bootstrap";
 import GreenCheckmark from "./GreenCheckmark";
+import ModuleEditor from "./ModuleEditor";
 
-export default function ModulesControls() {
+export default function ModulesControls({
+  moduleName,
+  setModuleName,
+  addModule,
+}: {
+  moduleName: string;
+  setModuleName: (title: string) => void;
+  addModule: () => void;
+}) {
   return (
     <div id="wd-modules-controls" className="text-nowrap">
       <Button
@@ -36,6 +45,12 @@ export default function ModulesControls() {
       <Button className="float-end me-2" variant="secondary" size="lg">
         Collapse All
       </Button>
+      <ModuleEditor
+        dialogTitle="Add Module"
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
     </div>
   );
 }
