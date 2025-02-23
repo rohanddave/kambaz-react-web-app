@@ -1,9 +1,9 @@
 import { ListGroup } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router";
-import { BsGripVertical, BsSearch } from "react-icons/bs";
+import { Link, useNavigate, useParams } from "react-router";
+import { BsGripVertical, BsSearch, BsTrash } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import { assignments } from "../../Database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment } from "./reducer";
 
 type Assignment = {
   _id: string;
@@ -15,6 +15,16 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to remove this assignment?"
+    );
+    if (confirmDelete) {
+      dispatch(deleteAssignment(assignment._id));
+    }
+  };
 
   return (
     <ListGroup
@@ -40,6 +50,16 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
           </div>
           <div className="ms-auto">
             <LessonControlButtons />
+            {currentUser.role === "FACULTY" && (
+              <BsTrash
+                className="ms-2 text-danger cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete();
+                }}
+                size={20}
+              />
+            )}
           </div>
         </div>
       </ListGroup.Item>
@@ -50,10 +70,7 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
 export default function Assignments() {
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
-  const courseAssignments: Assignment[] = assignments.filter(
-    (assignment: any) => assignment.course == cid
-  );
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
   return (
     <div id="wd-assignments">
@@ -76,12 +93,13 @@ export default function Assignments() {
               <span className="me-1">+</span> Group
             </button>
 
-            <button
+            <Link
+              to={`/Kambaz/Courses/${cid}/Assignments/123`}
               id="wd-add-assignment"
               className="btn btn-danger text-white d-inline-flex align-items-center px-3 py-2"
             >
               <span className="me-1">+</span> Assignment
-            </button>
+            </Link>
           </div>
         )}
       </div>
@@ -97,9 +115,11 @@ export default function Assignments() {
               editModule={(moduleId) => dispatch(editModule(moduleId))}
             /> */}
           </div>
-          {courseAssignments.map((assignment: any) => (
-            <AssignmentCard key={assignment._id} assignment={assignment} />
-          ))}
+          {assignments
+            .filter((assignment: any) => assignment.course === cid)
+            .map((assignment: any) => (
+              <AssignmentCard key={assignment._id} assignment={assignment} />
+            ))}
         </ListGroup.Item>
       </ListGroup>
     </div>
