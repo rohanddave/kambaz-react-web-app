@@ -9,6 +9,9 @@ type Assignment = {
   _id: string;
   title: string;
   course: string;
+  available_date: string;
+  due_date: string;
+  points: number;
 };
 
 function AssignmentCard({ assignment }: { assignment: Assignment }) {
@@ -43,9 +46,11 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
           <div className="assignment-details">
             <div className="assignment-title">{assignment.title}</div>
             <div className="assignment-meta">
-              {/* TODO */}
-              {/* <span>{assignment.available}</span> | <b>Due</b>{" "}
-                {assignment.due} | <span>{assignment.points} pts</span> */}
+              <span>
+                <b>Available</b> {assignment.available_date}
+              </span>
+              | <b>Due </b>
+              {assignment.due_date} | <span>{assignment.points} pts</span>
             </div>
           </div>
           <div className="ms-auto">
