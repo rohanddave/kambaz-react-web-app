@@ -12,6 +12,7 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
+import CourseProtectedRoute from "./ProtectedRoute";
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
@@ -33,11 +34,46 @@ export default function Courses({ courses }: { courses: any[] }) {
         <div className="flex-fill">
           <Routes>
             <Route path="/" element={<Navigate to="Home" />} />
-            <Route path="Home" element={<Home />} />
-            <Route path="Modules" element={<Modules />} />
-            <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-            <Route path="People" element={<PeopleTable />} />
+            <Route
+              path="Home"
+              element={
+                <CourseProtectedRoute>
+                  <Home />
+                </CourseProtectedRoute>
+              }
+            />
+            <Route
+              path="Modules"
+              element={
+                <CourseProtectedRoute>
+                  <Modules />
+                </CourseProtectedRoute>
+              }
+            />
+            <Route
+              path="Assignments"
+              element={
+                <CourseProtectedRoute>
+                  <Assignments />
+                </CourseProtectedRoute>
+              }
+            />
+            <Route
+              path="Assignments/:aid"
+              element={
+                <CourseProtectedRoute>
+                  <AssignmentEditor />
+                </CourseProtectedRoute>
+              }
+            />
+            <Route
+              path="People"
+              element={
+                <CourseProtectedRoute>
+                  <PeopleTable />
+                </CourseProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </div>
