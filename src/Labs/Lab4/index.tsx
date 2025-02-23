@@ -1,3 +1,4 @@
+import TodoList from "../Lab3/todos/TodoList";
 import ArrayStateVariable from "./ArrayStateVariable";
 import BooleanStateVariables from "./BooleanStateVariables";
 import ClickEvent from "./ClickEvent";
@@ -28,6 +29,7 @@ export default function Lab4() {
       <ObjectStateVariable />
       <ArrayStateVariable />
       <ReduxExamples />
+      <TodoList />
     </>
   );
 }
