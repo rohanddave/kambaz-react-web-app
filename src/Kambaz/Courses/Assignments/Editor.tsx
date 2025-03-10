@@ -1,12 +1,32 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router";
-import { assignments } from "../../Database";
+import { Link, useNavigate, useParams } from "react-router";
+import { useRef, useState } from "react";
+import { addAssignment, updateAssignment } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AssignmentEditor() {
   const { aid, cid } = useParams();
-  const assignment = assignments.find(
-    (assignment: any) => assignment._id == aid
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const initialAssignment = assignments.find((a: any) => a._id === aid);
+  const isEditingRef = useRef(!!initialAssignment);
+
+  const [assignment, setAssignment] = useState<any | undefined>(
+    initialAssignment
   );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSaveClick = () => {
+    console.log(isEditingRef.current);
+    console.log(assignment);
+    if (isEditingRef.current) {
+      dispatch(updateAssignment(assignment));
+    } else {
+      dispatch(addAssignment({ ...assignment, course: cid }));
+    }
+    navigate(`/Kambaz/Courses/${cid}/Assignments`);
+  };
   return (
     <Container id="wd-assignments-editor">
       <Form>
@@ -16,6 +36,9 @@ export default function AssignmentEditor() {
             id="wd-name"
             type="text"
             defaultValue={assignment?.title}
+            onChange={(e) =>
+              setAssignment({ ...assignment, title: e.target.value })
+            }
           />
         </Form.Group>
         <br />
@@ -26,6 +49,9 @@ export default function AssignmentEditor() {
             id="wd-description"
             as="textarea"
             defaultValue={assignment?.description}
+            onChange={(e) =>
+              setAssignment({ ...assignment, description: e.target.value })
+            }
             rows={4}
           />
         </Form.Group>
@@ -40,6 +66,12 @@ export default function AssignmentEditor() {
                 id="wd-points"
                 type="number"
                 defaultValue={assignment?.points}
+                onChange={(e) =>
+                  setAssignment({
+                    ...assignment,
+                    points: parseInt(e.target.value),
+                  })
+                }
               />
             </Col>
           </Row>
@@ -170,6 +202,12 @@ export default function AssignmentEditor() {
                       id="wd-available-from"
                       type="date"
                       defaultValue={assignment?.available_date}
+                      onChange={(e) =>
+                        setAssignment({
+                          ...assignment,
+                          available_date: e.target.value,
+                        })
+                      }
                     />
                   </Form.Group>
                 </Col>
@@ -198,12 +236,14 @@ export default function AssignmentEditor() {
           >
             Cancel
           </Link>
-          <Link
-            to={`/Kambaz/Courses/${cid}/Assignments`}
+          <button
+            onClick={() => {
+              handleSaveClick();
+            }}
             className="btn btn-danger text-white"
           >
             Save
-          </Link>
+          </button>
         </Container>
       </Form>
     </Container>
