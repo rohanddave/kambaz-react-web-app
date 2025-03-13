@@ -6,15 +6,6 @@ export default function CourseProtectedRoute({ children }: { children: any }) {
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const { cid } = useParams();
 
-  console.log(
-    currentUser &&
-      currentUser.role === "STUDENT" &&
-      enrollments.some(
-        (enrollment: any) =>
-          enrollment.course === cid && enrollment.user === currentUser._id
-      )
-  );
-
   if (
     currentUser &&
     (currentUser.role == "FACULTY" ||

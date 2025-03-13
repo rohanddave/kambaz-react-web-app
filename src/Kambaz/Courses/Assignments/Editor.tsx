@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from "react-router";
 import { useRef, useState } from "react";
 import { addAssignment, updateAssignment } from "./reducer";
 import { useDispatch, useSelector } from "react-redux";
+import { updateAssignment as updateAssignmentOnServer } from "./client";
+import { createAssignmentForCourse } from "../client";
 
 export default function AssignmentEditor() {
   const { aid, cid } = useParams();
@@ -17,16 +19,31 @@ export default function AssignmentEditor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const editAssignment = async (assignment: any) => {
+    const updatedAssignment = await updateAssignmentOnServer(assignment);
+    dispatch(updateAssignment(updatedAssignment));
+  };
+
+  const createAssignment = async (assignment: any) => {
+    if (cid) {
+      const createdAssignment = await createAssignmentForCourse(
+        cid,
+        assignment
+      );
+      dispatch(addAssignment({ ...createdAssignment, course: cid }));
+    }
+  };
+
   const handleSaveClick = () => {
-    console.log(isEditingRef.current);
-    console.log(assignment);
+    console.log("handle save click called");
     if (isEditingRef.current) {
-      dispatch(updateAssignment(assignment));
+      editAssignment(assignment);
     } else {
-      dispatch(addAssignment({ ...assignment, course: cid }));
+      createAssignment(assignment);
     }
     navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
+
   return (
     <Container id="wd-assignments-editor">
       <Form>

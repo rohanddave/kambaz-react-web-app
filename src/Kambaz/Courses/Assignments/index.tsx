@@ -3,7 +3,10 @@ import { Link, useNavigate, useParams } from "react-router";
 import { BsGripVertical, BsSearch, BsTrash } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { useEffect } from "react";
+import * as courseClient from "../client.ts";
+import * as client from "./client.ts";
+import { setAssignments, deleteAssignment } from "./reducer";
 
 type Assignment = {
   _id: string;
@@ -20,13 +23,18 @@ function AssignmentCard({ assignment }: { assignment: Assignment }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to remove this assignment?"
     );
     if (confirmDelete) {
-      dispatch(deleteAssignment(assignment._id));
+      await removeAssignment(assignment._id);
     }
+  };
+
+  const removeAssignment = async (assignmentId: any) => {
+    await client.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
   };
 
   return (
@@ -76,6 +84,18 @@ export default function Assignments() {
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    if (cid) {
+      const assignments = await courseClient.findAssignmentsForCourse(cid);
+      dispatch(setAssignments(assignments));
+    }
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
   return (
     <div id="wd-assignments">
@@ -120,11 +140,9 @@ export default function Assignments() {
               editModule={(moduleId) => dispatch(editModule(moduleId))}
             /> */}
           </div>
-          {assignments
-            .filter((assignment: any) => assignment.course === cid)
-            .map((assignment: any) => (
-              <AssignmentCard key={assignment._id} assignment={assignment} />
-            ))}
+          {assignments.map((assignment: any) => (
+            <AssignmentCard key={assignment._id} assignment={assignment} />
+          ))}
         </ListGroup.Item>
       </ListGroup>
     </div>
