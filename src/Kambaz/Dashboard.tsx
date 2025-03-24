@@ -1,7 +1,6 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import * as db from "./Database";
 import { useEffect, useState } from "react";
 import { enroll, unenroll } from "./Courses/reducer";
 
