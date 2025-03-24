@@ -1,8 +1,7 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { enroll, unenroll } from "./Courses/reducer";
 
 export default function Dashboard({
   courses,
@@ -11,6 +10,8 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  enrollCourse,
+  unenrollCourse,
 }: {
   courses: any[];
   course: any;
@@ -18,12 +19,13 @@ export default function Dashboard({
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
+  enrollCourse: (courseId: string) => void;
+  unenrollCourse: (courseId: string) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const [displayedCourses, setDisplayedCourses] = useState<any[]>([]);
   const [mode, setMode] = useState<"all" | "enrolled">("all");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!currentUser || !courses.length || !enrollments.length) return;
@@ -44,24 +46,6 @@ export default function Dashboard({
     }
   }, [mode, currentUser, courses, enrollments]);
 
-  const handleEnroll = (courseId: any) => {
-    dispatch(
-      enroll({
-        courseId,
-        userId: currentUser._id,
-      })
-    );
-  };
-
-  const handleUnenroll = (courseId: any) => {
-    dispatch(
-      unenroll({
-        courseId,
-        userId: currentUser._id,
-      })
-    );
-  };
-
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
@@ -70,7 +54,7 @@ export default function Dashboard({
           <button
             onClick={() => setMode(mode === "enrolled" ? "all" : "enrolled")}
           >
-            Enrollments
+            {mode === "enrolled" ? "All" : "Enrolled"}
           </button>
         </>
       )}
@@ -150,7 +134,7 @@ export default function Dashboard({
                           <button
                             onClick={(e) => {
                               e.preventDefault();
-                              handleUnenroll(course._id);
+                              unenrollCourse(course._id);
                             }}
                           >
                             Unenroll
@@ -159,7 +143,7 @@ export default function Dashboard({
                           <button
                             onClick={(e) => {
                               e.preventDefault();
-                              handleEnroll(course._id);
+                              enrollCourse(course._id);
                             }}
                           >
                             Enroll
