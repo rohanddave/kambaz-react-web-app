@@ -1,8 +1,9 @@
 import { FaPlus } from "react-icons/fa6";
 import { Button, Dropdown } from "react-bootstrap";
 import GreenCheckmark from "./GreenCheckmark";
-import ModuleEditor from "./ModuleEditor";
 import { useSelector } from "react-redux";
+import ModuleEditor from "./ModuleEditor";
+import { useState } from "react";
 
 export default function ModulesControls({
   moduleName,
@@ -13,6 +14,9 @@ export default function ModulesControls({
   setModuleName: (title: string) => void;
   addModule: () => void;
 }) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
@@ -20,6 +24,7 @@ export default function ModulesControls({
       {currentUser.role === "FACULTY" && (
         <>
           <Button
+            onClick={handleShow}
             variant="danger"
             size="lg"
             className="me-1 float-end"
@@ -60,14 +65,14 @@ export default function ModulesControls({
       <Button className="float-end me-2" variant="secondary" size="lg">
         Collapse All
       </Button>
-      {currentUser.role === "FACULTY" && (
-        <ModuleEditor
-          dialogTitle="Add Module"
-          moduleName={moduleName}
-          setModuleName={setModuleName}
-          addModule={addModule}
-        />
-      )}
+      <ModuleEditor
+        show={show}
+        handleClose={handleClose}
+        dialogTitle="Add Module"
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
     </div>
   );
 }
