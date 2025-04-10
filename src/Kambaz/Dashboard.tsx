@@ -12,15 +12,21 @@ export default function Dashboard({
   updateCourse,
   enrollCourse,
   unenrollCourse,
+  enrolling,
+  setEnrolling,
+  updateEnrollment,
 }: {
   courses: any[];
   course: any;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
   setCourse: (course: any) => void;
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
   enrollCourse: (courseId: string) => void;
   unenrollCourse: (courseId: string) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
@@ -49,6 +55,12 @@ export default function Dashboard({
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
+      <button
+        onClick={() => setEnrolling(!enrolling)}
+        className="float-end btn btn-primary"
+      >
+        {enrolling ? "My Courses" : "All Courses"}
+      </button>
       {currentUser.role === "STUDENT" && (
         <>
           <button
@@ -119,6 +131,19 @@ export default function Dashboard({
                   />
                   <Card.Body>
                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                      {enrolling && (
+                        <button
+                          onClick={(event) => {
+                            event.preventDefault();
+                            updateEnrollment(course._id, !course.enrolled);
+                          }}
+                          className={`btn ${
+                            course.enrolled ? "btn-danger" : "btn-success"
+                          } float-end`}
+                        >
+                          {course.enrolled ? "Unenroll" : "Enroll"}
+                        </button>
+                      )}
                       {course.name}
                     </Card.Title>
                     <Card.Text
