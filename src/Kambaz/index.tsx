@@ -11,12 +11,11 @@ import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
 import { useDispatch, useSelector } from "react-redux";
 import * as enrollmentClient from "./Courses/Enrollments/client";
-import { enroll, setEnrollments, unenroll } from "./Courses/reducer";
+import { enroll, unenroll } from "./Courses/reducer";
 
 export default function Kambaz() {
   const [courses, setCourses] = useState<any[]>([]);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
 
   const [enrolling, setEnrolling] = useState<boolean>(false);
   const findCoursesForUser = async () => {
@@ -48,26 +47,6 @@ export default function Kambaz() {
   };
 
   const dispatch = useDispatch();
-
-  const fetchEnrollments = async () => {
-    try {
-      const enrolledCourses = await userClient.findMyCourses();
-      console.log("printing enrollments from find my courses");
-      console.log(enrolledCourses);
-      console.log("printing current user");
-      console.log(currentUser);
-      const en = enrolledCourses.map((c: any) => ({
-        _id: c._id,
-        user: currentUser._id,
-        course: c._id,
-      }));
-      console.log("before setting enrollments");
-      console.log(en);
-      dispatch(setEnrollments({ enrollments: en }));
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   const [course, setCourse] = useState<any>({
     _id: "1234",
