@@ -33,24 +33,23 @@ export default function Dashboard({
   const [displayedCourses, setDisplayedCourses] = useState<any[]>([]);
   const [mode, setMode] = useState<"all" | "enrolled">("all");
 
+  console.log("printing enrollments " + JSON.stringify(enrollments));
+
+  console.log(
+    "printing displayed courses: " + JSON.stringify(displayedCourses)
+  );
+
   useEffect(() => {
-    if (!currentUser || !courses.length || !enrollments.length) return;
+    if (!currentUser || !courses.length) return;
 
-    if (currentUser.role === "STUDENT") {
-      const updatedCourses = courses.map((course) => ({
-        ...course,
-        enrolled: enrollments.some(
-          (enrollment: any) =>
-            enrollment.user === currentUser._id &&
-            enrollment.course === course._id
-        ),
-      }));
-
-      if (mode === "enrolled") {
-        setDisplayedCourses(updatedCourses.filter((course) => course.enrolled));
-      } else {
-        setDisplayedCourses(updatedCourses);
-      }
+    if (mode === "enrolled") {
+      setDisplayedCourses(
+        courses.filter((course) =>
+          enrollments.some(
+            (enrollment: any) => enrollment.course === course._id
+          )
+        )
+      );
     } else {
       setDisplayedCourses(courses);
     }

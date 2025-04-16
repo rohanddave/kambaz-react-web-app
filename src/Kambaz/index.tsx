@@ -11,27 +11,31 @@ import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
 import { useDispatch, useSelector } from "react-redux";
 import * as enrollmentClient from "./Courses/Enrollments/client";
-import { enroll, unenroll } from "./Courses/reducer";
+import { enroll, setEnrollments, unenroll } from "./Courses/reducer";
 
 export default function Kambaz() {
   const [courses, setCourses] = useState<any[]>([]);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
   const [enrolling, setEnrolling] = useState<boolean>(false);
-  const findCoursesForUser = async () => {
-    try {
-      const courses = await userClient.findCoursesForUser(currentUser._id);
-      setCourses(courses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const dispatch = useDispatch();
 
   const fetchCourses = async () => {
+    console.log("fetch all courses called");
     try {
       const allCourses = await courseClient.fetchAllCourses();
       const enrolledCourses = await userClient.findCoursesForUser(
         currentUser._id
+      );
+      dispatch(
+        setEnrollments({
+          enrollments: enrolledCourses.map((enrolledCourse: any) => {
+            return {
+              _id: `${currentUser._id}-${enrolledCourse._id}`,
+              course: enrolledCourse._id,
+              user: currentUser._id,
+            };
+          }),
+        })
       );
       const courses = allCourses.map((course: any) => {
         if (enrolledCourses.find((c: any) => c._id === course._id)) {
@@ -45,8 +49,6 @@ export default function Kambaz() {
       console.error(error);
     }
   };
-
-  const dispatch = useDispatch();
 
   const [course, setCourse] = useState<any>({
     _id: "1234",
@@ -118,10 +120,9 @@ export default function Kambaz() {
   };
 
   useEffect(() => {
-    if (enrolling) {
+    if (currentUser) {
       fetchCourses();
-    } else {
-      findCoursesForUser();
+      // findCoursesForUser();
     }
   }, [currentUser, enrolling]);
 
