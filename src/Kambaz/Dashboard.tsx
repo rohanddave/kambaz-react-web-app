@@ -36,19 +36,23 @@ export default function Dashboard({
   useEffect(() => {
     if (!currentUser || !courses.length || !enrollments.length) return;
 
-    const updatedCourses = courses.map((course) => ({
-      ...course,
-      enrolled: enrollments.some(
-        (enrollment: any) =>
-          enrollment.user === currentUser._id &&
-          enrollment.course === course._id
-      ),
-    }));
+    if (currentUser.role === "STUDENT") {
+      const updatedCourses = courses.map((course) => ({
+        ...course,
+        enrolled: enrollments.some(
+          (enrollment: any) =>
+            enrollment.user === currentUser._id &&
+            enrollment.course === course._id
+        ),
+      }));
 
-    if (mode === "enrolled") {
-      setDisplayedCourses(updatedCourses.filter((course) => course.enrolled));
+      if (mode === "enrolled") {
+        setDisplayedCourses(updatedCourses.filter((course) => course.enrolled));
+      } else {
+        setDisplayedCourses(updatedCourses);
+      }
     } else {
-      setDisplayedCourses(updatedCourses);
+      setDisplayedCourses(courses);
     }
   }, [mode, currentUser, courses, enrollments]);
 
