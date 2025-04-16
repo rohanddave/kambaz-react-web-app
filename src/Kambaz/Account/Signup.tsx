@@ -6,11 +6,19 @@ import * as client from "./client";
 import { setCurrentUser } from "./reducer";
 
 export default function Signup() {
-  const [user, _] = useState<any>({});
+  const [user, setUser] = useState<any>({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const signup = async () => {
+    if (user.password !== user.confirmedPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    if (!user.username || !user.password) {
+      alert("Please enter a username and password");
+      return;
+    }
     const currentUser = await client.signup(user);
     dispatch(setCurrentUser(currentUser));
     navigate("/Kambaz/Account/Profile");
@@ -19,13 +27,19 @@ export default function Signup() {
   return (
     <div id="wd-signup-screen">
       <h3>Sign up</h3>
-      <Form.Control id="wd-username" placeholder="username" className="mb-2" />
+      <Form.Control
+        id="wd-username"
+        placeholder="username"
+        className="mb-2"
+        onChange={(e) => setUser({ ...user, username: e.target.value })}
+      />
       <br />
       <Form.Control
         id="wd-password"
         placeholder="password"
         type="password"
         className="mb-2"
+        onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
       <br />
       <Form.Control
@@ -33,6 +47,9 @@ export default function Signup() {
         placeholder="confirm password"
         type="password"
         className="mb-2"
+        onChange={(e) =>
+          setUser({ ...user, confirmedPassword: e.target.value })
+        }
       />
       <br />
       <button
